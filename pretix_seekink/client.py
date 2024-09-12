@@ -2,6 +2,7 @@ import hashlib
 import re
 import requests
 from django.core.cache import cache
+from urllib.parse import urljoin
 
 
 class SeekInkClient(object):
@@ -12,7 +13,7 @@ class SeekInkClient(object):
 
     def refresh_token(self):
         req = requests.post(
-            f"{self.server}/user/login",
+            urljoin(self.server, "/user/login"),
             json={"username": self.username, "password": self.password},
         )
 
@@ -56,7 +57,7 @@ class SeekInkClient(object):
 
         if mac:
             req = requests.post(
-                f"{self.server}/label/brushPic",
+                urljoin(self.server, "/label/brushPic"),
                 headers=self.default_headers(),
                 files={
                     "file": ("badge.png", image),
