@@ -24,14 +24,9 @@ class PluginApp(PluginConfig):
         compatibility = "pretix>=2.7.0"
         picture = "pretix_seekink/logo.png"
         experimental = True
-
-        @property
-        def restricted(self):
-            if any(
-                domain in settings.SITE_URL for domain in ["pretix.eu", "pretix.dev"]
-            ):
-                return True
-            return False
+        restricted = any(
+            domain in settings.SITE_URL for domain in ["pretix.eu", "pretix.dev"]
+        )
 
     def ready(self):
         from . import signals  # NOQA
